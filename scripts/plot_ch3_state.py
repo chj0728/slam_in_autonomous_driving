@@ -15,7 +15,7 @@ if __name__ == '__main__':
         plt.rcParams['figure.figsize'] = (16.0, 12.0)
 
         # 轨迹
-        plt.subplot(121)
+        plt.subplot(221)
         plt.scatter(path_data[:, 1], path_data[:, 2], s=2)
         plt.xlabel('X')
         plt.ylabel('Y')
@@ -39,5 +39,26 @@ if __name__ == '__main__':
         plt.title('v')
         plt.legend(['vx', 'vy', 'vz'])
 
+        # plt.show()        
+        
+        
+        # creat 3D trajector
+
+        # 方法1
+        #plt.figure()
+        #ax = plt.axes(projection = '3d')
+
+        # 方法2
+        ax = plt.subplot(223, projection='3d')
+        # ax = plt.figure().gca(projection='3d')
+
+        ax.scatter3D(path_data[:, 1], path_data[:, 2], path_data[:, 3] ,s=2, c="b")
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+        ax.set_title('3D trajector')
+        plt.legend(['position'],loc="best")#注释
+
         plt.show()
+
         exit(1)
