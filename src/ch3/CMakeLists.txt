@@ -1,3 +1,4 @@
+# set(CMAKE_BUILD_TYPE Debug)
 add_executable(run_imu_integration
         run_imu_integration.cc
         )
