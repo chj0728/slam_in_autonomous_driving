@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   geometry_msgs
   nav_msgs
+  tf2
 )
 
 find_package(Sophus REQUIRED)
@@ -131,6 +132,13 @@ include_directories(
 # add_library(${PROJECT_NAME}
 #   src/${PROJECT_NAME}/odometry.cpp
 # )
+add_library(${PROJECT_NAME}_imu
+  include/${PROJECT_NAME}/imu_integration.cpp
+)
+target_link_libraries(${PROJECT_NAME}_imu
+  ${catkin_LIBRARIES}
+  ${Sophus_LIBRARIES}
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -159,9 +167,12 @@ include_directories(
 
 add_executable(${PROJECT_NAME}_node src/imu_integration_node.cpp)
 
+# add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_imu ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
   ${Sophus_LIBRARIES}
+  ${PROJECT_NAME}_imu
 )
 #############
 ## Install ##
