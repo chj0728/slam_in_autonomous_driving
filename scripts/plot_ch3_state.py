@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
-# 格式：t x y z qx qy qz qw vx vy vz
+# 格式：t x y z qw qx qy qz vx vy vz
 if __name__ == '__main__':
     if len(sys.argv) != 2:
         print('Please input valid file')
