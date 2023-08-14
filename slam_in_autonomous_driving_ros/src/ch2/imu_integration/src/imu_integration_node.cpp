@@ -15,7 +15,7 @@
 int main(int argc, char **argv){
     ros::init(argc, argv, "imu_integration_node");
 
-    Vec3d gravity(0, 0, -9.8);  // 重力方向
+    Vec3d gravity(0, 0, -9.841);  // 重力方向
     Vec3d init_bg(00.000224886, -7.61038e-05, -0.000742259);
     Vec3d init_ba(-0.165205, 0.0926887, 0.0058049);
 
