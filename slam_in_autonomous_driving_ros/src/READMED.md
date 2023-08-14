@@ -11,3 +11,13 @@ python3 ./plot_ch3_state.py
 ```
 
 <img src="https://gitee.com/cao-haojie/images/raw/master/images/202308122319942.png" alt="1691849588841" style="zoom: 50%;" />
+
++ 将输出**state.txt**(time,x,y,z,qx,qy,qz,qw,vx,vy,vz)保存为
+**tum.txt**格式(time,x,y,z,qx,qy,qz,qw)
+```bash
+cut -d ' ' -f -8 state.txt >tum.txt
+```
++ 使用[EVO工具](https://github.com/MichaelGrupp/evo)可视化数据
+```bash
+evo_traj tum tum.txt -p
+```
