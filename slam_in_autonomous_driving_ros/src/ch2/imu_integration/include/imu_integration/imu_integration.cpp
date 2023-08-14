@@ -31,7 +31,7 @@ gravity_(gravity),bg_(init_bg), ba_(init_ba),fout(file_path),flag_(true)
         };
         auto save_quat = [](std::ofstream& fout, const Quatd& q) 
         {
-            fout << q.w() << " " << q.x() << " " << q.y() << " " << q.z() << " ";
+            fout << q.x() << " " << q.y() << " " << q.z() << " " << q.w() << " ";
         };
 
         fout << std::setprecision(18) << timestamp << " " << std::setprecision(9);
