@@ -1,24 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(imu_integration)
-# set(CMAKE_BUILD_TYPE Debug)
+project(common)
+
 ## Compile as C++11, supported in ROS Kinetic and newer
-add_compile_options(-std=c++11)
+# add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  sensor_msgs
-  std_msgs
-  tf2_ros
-  geometry_msgs
-  nav_msgs
-  tf2
-  common
-)
-find_package(Sophus REQUIRED)
+find_package(catkin REQUIRED)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -77,7 +66,7 @@ find_package(Sophus REQUIRED)
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs#   std_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -111,9 +100,9 @@ find_package(Sophus REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES odometry
-#  CATKIN_DEPENDS roscpp rospy sensor_msgs std_msgs 
-#  DEPENDS system_lib
+#  LIBRARIES common
+#  CATKIN_DEPENDS other_catkin_pkg
+  DEPENDS system_lib
 )
 
 ###########
@@ -123,23 +112,14 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
-  ${catkin_INCLUDE_DIRS}
-  ${Sophus_INCLUDE_DIRS}
+ include
+# ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/odometry.cpp
+#   src/${PROJECT_NAME}/common.cpp
 # )
-add_library(${PROJECT_NAME}_imu
-  #include/${PROJECT_NAME}/imu_integration.cpp
-  src/imu_integration.cpp
-)
-target_link_libraries(${PROJECT_NAME}_imu
-  ${catkin_LIBRARIES}
-  ${Sophus_LIBRARIES}
-)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -149,7 +129,7 @@ target_link_libraries(${PROJECT_NAME}_imu
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/odometry_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/common_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -166,15 +146,6 @@ target_link_libraries(${PROJECT_NAME}_imu
 #   ${catkin_LIBRARIES}
 # )
 
-add_executable(${PROJECT_NAME}_node src/imu_integration_node.cpp)
-
-# add_dependencies(${PROJECT_NAME}_node ${PROJECT_NAME}_imu ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(${PROJECT_NAME}_node
-  ${catkin_LIBRARIES}
-  ${Sophus_LIBRARIES}
-  ${PROJECT_NAME}_imu
-)
 #############
 ## Install ##
 #############
@@ -191,9 +162,9 @@ target_link_libraries(${PROJECT_NAME}_node
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
-install(TARGETS ${PROJECT_NAME}_node
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(TARGETS ${PROJECT_NAME}_node
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 ## Mark libraries for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
@@ -222,7 +193,7 @@ install(TARGETS ${PROJECT_NAME}_node
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_odometry.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_common.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

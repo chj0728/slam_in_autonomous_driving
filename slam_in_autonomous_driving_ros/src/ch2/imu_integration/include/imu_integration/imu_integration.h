@@ -12,7 +12,7 @@
 #ifndef IMU_INTEGRATION_H_
 #define IMU_INTEGRATION_H_
 
-#include <imu_integration/eigen_types.h>
+#include <common/eigen_types.h>
 
 #include <string>
 #include <iomanip>
@@ -28,7 +28,7 @@
 
 #include <tf2_ros/transform_broadcaster.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-    // #include <tf2/LinearMath/Quaternion.h>
+// #include <tf2/LinearMath/Quaternion.h>
 
 /**
  * @brief Struct IMU 数据

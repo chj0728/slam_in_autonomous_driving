@@ -11,8 +11,6 @@
 
 #include <imu_integration/imu_integration.h>
 
-#include <imu_integration/eigen_types.h>
-
 class IMUIntegration;
 
 IMUIntegration::IMUIntegration(const Vec3d& gravity, const Vec3d& init_bg, const Vec3d& init_ba, const std::string &file_path):
