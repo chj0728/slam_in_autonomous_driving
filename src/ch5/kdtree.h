@@ -17,7 +17,7 @@ namespace sad {
 /// Kd树节点，二叉树结构，内部用祼指针，对外一个root的shared_ptr
 struct KdTreeNode {
     int id_ = -1;
-    int point_idx_ = 0;            // 点的索引
+    int point_idx_ = 0;            // 点的索引  对应cloud_中的索引
     int axis_index_ = 0;           // 分割轴
     float split_thresh_ = 0.0;     // 分割位置
     KdTreeNode* left_ = nullptr;   // 左子树
@@ -117,8 +117,8 @@ class KdTree {
 
     int k_ = 5;                                   // knn最近邻数量
     std::shared_ptr<KdTreeNode> root_ = nullptr;  // 根节点
-    std::vector<Vec3f> cloud_;                    // 输入点云
-    std::unordered_map<int, KdTreeNode*> nodes_;  // for bookkeeping
+    std::vector<Vec3f> cloud_;                    // 输入点云   
+    std::unordered_map<int, KdTreeNode*> nodes_;  // for bookkeeping    
 
     size_t size_ = 0;       // 叶子节点数量
     int tree_node_id_ = 0;  // 为kdtree node 分配id

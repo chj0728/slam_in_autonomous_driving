@@ -180,14 +180,14 @@ bool KdTree::FindSplitAxisAndThresh(const IndexVec &point_idx, int &axis, float 
     Vec3f mean;
     math::ComputeMeanAndCovDiag(point_idx, mean, var, [this](int idx) { return cloud_[idx]; });
     int max_i, max_j;
-    var.maxCoeff(&max_i, &max_j);
+    var.maxCoeff(&max_i, &max_j);//返回最大值的索引，max_i为最大值的行索引，max_j为最大值的列索引
     axis = max_i;
     th = mean[axis];
 
-    for (const auto &idx : point_idx) {
+    for (const auto &idx : point_idx) {//idx为点云实际索引
         if (cloud_[idx][axis] < th) {
             // 中位数可能向左取整
-            left.emplace_back(idx);
+            left.emplace_back(idx);//push_back()的底层实现过程比emplace_back()更繁琐，emplace_back()直接在容器的末尾构造一个元素，而push_back()则是先创建一个临时对象，然后再将这个对象拷贝到容器的末尾，最后再销毁这个临时对象。
         } else {
             right.emplace_back(idx);
         }
