@@ -1,3 +1,16 @@
+- [ch2/imu\_integration](#ch2imu_integration)
+- [imu\_pre\_node.cpp](#imu_pre_nodecpp)
+  - [launch启动](#launch启动)
+- [kdtree\_node.cpp](#kdtree_nodecpp)
+  - [节点测试](#节点测试)
+- [icp\_2d.cpp](#icp_2dcpp)
+  - [节点测试](#节点测试-1)
+- [gmapping.cc](#gmappingcc)
+  - [节点测试](#节点测试-2)
+- [occupancy\_map.cpp{@q }](#occupancy_mapcppq-)
+  - [节点测试](#节点测试-3)
+- [lio包](#lio包)
+
 ## ch2/imu_integration
 + ROS功能包**imu_integration**根据[run_imu_integration.cc](../../src/ch3/run_imu_integration.cc)修改而来
 
@@ -21,3 +34,76 @@ cut -d ' ' -f -8 state.txt >tum.txt
 ```bash
 evo_traj tum tum.txt -p
 ```
+
+## imu_pre_node.cpp
++ 带有imu静止初始化模块的imu预积分节点
++ imu静止初始化的相关参数在 **src/lio/param/params.yaml**
++ 订阅imu话题“imu/data”
+
+### launch启动
++ roslaunch lio start.launch 
+
+
+## kdtree_node.cpp
++ 添加K-d树的循环实现
+
+### 节点测试
++ rosrun lio kdtree_node 
+
+## icp_2d.cpp
+
++ 点对点的icp
++ 发布里程计和tf
++ 未考虑运动畸变
++ 设置迭代10次时，回调处理一次的周期大于激光15Hz周期
++ 设置迭代次数为5
++ 基于Ceres优化求解器
+
+### 节点测试
++ rosrun lio icp_node
++ rosbag play data.bag --topics /scan_multi
+
+
+## gmapping.cc
++ 基于Gmapping，激光雷达数据单次更新栅格地图
++ 转换一次地图用时约: 0.16～0.18秒
+
+### 节点测试
++ rosrun lio gmapping_node
++ rosrun lio icp_node
++ rosbag play data.bag --topics /scan_multi
+
+
+##  occupancy_map.cpp{@q }
+- [ ] 实现基于子图的地图发布
+
+### 节点测试
++ rosrun lio occupancy_node 
++ rosbag play data.bag --topics /scan_multi
+
+## lio包
+include/lio/sensors/：
+  imu.hpp
+  >+ class IMU
+  >+ class IMUSubscriber
+  
+src/sensors/:
+  >imu.cpp
+
+src/nodes/:
+  > imu_node.cpp
+
+cmake:
+```cmake
+file(GLOB_RECURSE ALL_SRCS "src/sensors/*.cpp")
+add_executable(imu_node 
+              src/nodes/imu_node.cpp
+              ${ALL_SRCS})
+target_link_libraries(imu_node PRIVATE 
+                      glog
+                      gflags
+                      ${catkin_LIBRARIES})
+```
+
+-----
+include/lio/

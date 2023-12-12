@@ -1,0 +1,9 @@
+<launch>
+
+    <!-- Params -->
+    <rosparam command="load" file="$(find lio)/param/params.yaml" />
+
+    <!-- Nodes -->
+    <node name="lio" pkg="lio" type="imu_pre_node" output="screen" />
+
+</launch>

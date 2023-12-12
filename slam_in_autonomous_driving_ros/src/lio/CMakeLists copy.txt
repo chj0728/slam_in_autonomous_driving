@@ -1,13 +1,47 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(common)
-
+cmake_minimum_required(VERSION 3.0.2)
+#cmake_minimum_required(VERSION 2.8.3)
+project(lio)
+#set(CMAKE_BUILD_TYPE "Debug")
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++14)
+set(DEFAULT_BUILD_TYPE "Release")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_FLAGS "-w")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -g -ggdb ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS_DEBUG "-g ${CMAKE_CXX_FLAGS}")
+
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  sensor_msgs
+  geometry_msgs
+  nav_msgs
+  common
+  #tf
+  tf_conversions
+  tf2_ros
+  tf2
+  tf2_geometry_msgs
+  pcl_ros
+  pcl_conversions
+  #laser_geometry
+)
+
+
+#Sophus
+find_package(Sophus REQUIRED)
+
+#PCL
+find_package(PCL REQUIRED)
+
+#Find Boost LIBRARIES
+## System dependencies are found with CMake's conventions
+# find_package(Boost REQUIRED COMPONENTS thread )#signals)
+set(Boost_INCLUDE_DIRS /usr/include/boost)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -100,9 +134,9 @@ find_package(catkin REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-#  LIBRARIES common
-#  CATKIN_DEPENDS other_catkin_pkg
-  #DEPENDS system_lib
+#  LIBRARIES lio
+  CATKIN_DEPENDS roscpp rospy
+#  DEPENDS system_lib
 )
 
 ###########
@@ -112,14 +146,113 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
- include
- ${CMAKE_SOURCE_DIR}/thirdparty/sophus/
-# ${catkin_INCLUDE_DIRS}
+  include
+  ${CMAKE_SOURCE_DIR}/thirdparty/sophus/
+  ${catkin_INCLUDE_DIRS}
+  ${PCL_INCLUDE_DIRS}
+  ${Boost_INCLUDE_DIRS}
+  # ${Sophus_INCLUDE_DIRS}
 )
+
+## Declare extra library
+add_library(${PROJECT_NAME}_lib
+        include/static_imu_init.cpp
+        include/imu_pre.cpp
+        include/kdtree.cpp
+        include/icp_2d.cpp
+        include/occupancy_map.cpp
+        )
+target_link_libraries(${PROJECT_NAME}_lib
+        tbb
+        )
+
+
+add_executable(imu_preintegration_node src/imu_preintegration_node.cpp)
+target_link_libraries(imu_preintegration_node
+  ${catkin_LIBRARIES}
+  # ${Sophus_LIBRARIES}
+)
+
+#imu_pre_node
+#######################
+add_executable(imu_pre_node src/imu_pre_node.cpp)
+target_link_libraries(imu_pre_node
+  ${PROJECT_NAME}_lib
+  glog
+  gflags
+  ${catkin_LIBRARIES}
+)
+#########################
+
+#kdtree_node
+######################
+add_executable(kdtree_node src/kdtree_node.cpp)
+target_link_libraries(kdtree_node
+  ${PROJECT_NAME}_lib
+  glog
+  gflags
+  ${catkin_LIBRARIES}
+  # ${PCL_LIBRARIES}
+)
+##########################
+
+#icp_node
+####################
+add_executable(icp_node src/icp_node.cpp)
+target_link_libraries(icp_node
+  ${PROJECT_NAME}_lib
+  glog
+  gflags
+  ${catkin_LIBRARIES}
+  # ${PCL_LIBRARIES}
+)
+####################
+
+# GMapping map
+######################################
+add_executable(gmapping_node
+  src/gmapping/gmapping.cc
+)
+
+add_dependencies(gmapping_node 
+${catkin_EXPORTED_TARGETS}
+)
+
+target_link_libraries(gmapping_node
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+)
+#######################################
+
+# Occupancy node
+######################################
+add_executable(occupancy_node
+  src/occupancy_node.cpp
+  include/occupancy_map.cpp
+)
+target_link_libraries(occupancy_node
+  ${catkin_LIBRARIES}
+)
+#######################################
+
+
+# CMAKE related message
+######################
+message(STATUS "PROJECT_SOURCE_DIR: " ${PROJECT_SOURCE_DIR} )
+message(STATUS "PROJECT_BINARY_DIR: " ${PROJECT_BINARY_DIR} )
+message(STATUS "CMAKE_SOURCE_DIR: " ${CMAKE_SOURCE_DIR} )
+message(STATUS "CMAKE_BINARY_DIR: " ${CMAKE_BINARY_DIR} )
+message(STATUS "CMAKE_CURRENT_SOURCE_DIR: " ${CMAKE_CURRENT_SOURCE_DIR} )
+message(STATUS "CMAKE_CURRENT_BINARY_DIR: " ${CMAKE_CURRENT_BINARY_DIR} )
+message(STATUS "CMAKE_CURRENT_LIST_FILE: " ${CMAKE_CURRENT_LIST_FILE} )
+message(STATUS "CMAKE_CURRENT_LIST_LINE: " ${CMAKE_CURRENT_LIST_LINE} )
+message(STATUS "CMAKE_MODULE_PATH: " ${CMAKE_MODULE_PATH} )
+message(STATUS "Sophus_INCLUDE_DIRS: " ${Sophus_INCLUDE_DIRS} )
+######################
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
-#   src/${PROJECT_NAME}/common.cpp
+#   src/${PROJECT_NAME}/lio.cpp
 # )
 
 ## Add cmake target dependencies of the library
@@ -130,7 +263,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-# add_executable(${PROJECT_NAME}_node src/common_node.cpp)
+# add_executable(${PROJECT_NAME}_node src/lio_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -194,7 +327,7 @@ include_directories(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_common.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_lio.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()

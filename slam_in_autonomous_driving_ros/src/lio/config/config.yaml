@@ -1,0 +1,24 @@
+lio_mapping:
+  lidar_topic: "rslidar_points"
+  imu_topic: "/imu/data"
+  odom_topic: "/odom"
+  kf_dist: 0.1              #关键帧的距离阈值
+  # kf_angle: 30              #关键帧的角度阈值
+  kf_nums_in_local_map: 3   #关键帧数量
+  voxel_size: 0.5           #体素滤波器的体素大小
+
+  registration_method: "NDT" #前端匹配方法
+
+  frame_filter_method: "voxel_filter" #帧滤波方法:"voxel_filter" ....
+  frame_filter_voxel_size: 1.0     #帧滤波的体素大小
+
+  local_map_filter_method: "voxel_filter" #局部地图滤波方法:"voxel_filter" ....
+  local_map_filter_voxel_size: 0.5       #局部地图滤波的体素大小
+
+  # ndt_method: "PCL"                   #NDT方法:"PCL" ....
+
+  ndt_option:
+    max_iter: 30        #最大迭代次数 50
+    step_size: 0.1      #牛顿法优化的最大步长 0.01
+    res: 1.0           #网格大小 1.0
+    trans_eps: 0.01     #连续变化之间允许的最大误差，收敛阈值 0.001

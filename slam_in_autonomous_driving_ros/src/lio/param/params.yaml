@@ -1,0 +1,19 @@
+imu_topic: "imu/data"
+odom_topic: "odom"
+
+#IMU init Settings
+# init_bg: [2.61225e-06 , 3.14668e-06, 1.36532e-06]
+# init_ba: [-0.000270694, -0.00048718, -0.0211304]
+
+use_imu_static_init: true
+use_speed_for_static_checking: false
+static_odom_pulse: 5
+init_time_seconds: 10
+init_imu_queue_max_size: 2000 
+max_static_gyro_var: 0.0001
+max_static_acce_var: 0.0005
+gravity_norm: 9.80511
+
+#IMU preintegration Settings
+# noise_gyro: 1e-2
+# noise_acce: 1e-1
