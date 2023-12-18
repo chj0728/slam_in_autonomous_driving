@@ -43,6 +43,7 @@ find_package(PCL REQUIRED)
 
 find_package(yaml-cpp REQUIRED)
 
+find_package (OpenCV 4.0.0 REQUIRED)
 
 #Find Boost LIBRARIES
 ## System dependencies are found with CMake's conventions
@@ -84,6 +85,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
   include
+  /usr/include/opencv4/
   ${CMAKE_SOURCE_DIR}/thirdparty/sophus/
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}

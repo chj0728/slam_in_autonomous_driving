@@ -139,6 +139,7 @@ add_library(${PROJECT_NAME}_imu
 target_link_libraries(${PROJECT_NAME}_imu
   ${catkin_LIBRARIES}
   ${Sophus_LIBRARIES}
+  fmt
 )
 
 ## Add cmake target dependencies of the library

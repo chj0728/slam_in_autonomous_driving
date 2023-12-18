@@ -1,3 +1,4 @@
+- [pre-dependencies](#pre-dependencies)
 - [ch2/imu\_integration](#ch2imu_integration)
 - [imu\_pre\_node.cpp](#imu_pre_nodecpp)
   - [launch启动](#launch启动)
@@ -10,6 +11,60 @@
 - [occupancy\_map.cpp{@q }](#occupancy_mapcppq-)
   - [节点测试](#节点测试-3)
 - [lio包](#lio包)
+
+## pre-dependencies
+
++ fmt
+
+[将fmt编译成动态库](https://blog.csdn.net/weixin_38213410/article/details/123987676)
+
+在CMakelists.txt中开头的部分加入下列语句：
+```cmake
+# enable building shared Libraries
+set(BUILD_SHARED_LIBS ON)
+```
+
+```bash
+git clone https://github.com/fmtlib/fmt.git
+cd fmt
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+```
+
++ Sophus
+```bash
+git clone https://github.comakem/strasdat/Sophus.git
+cd Sophus
+#git checkout a621ff
+mkdir build 
+cd build
+cmake ..
+make
+sudo make install
+```
++ Ceres-solver
+```bash
+# CMake
+sudo apt-get install cmake
+# google-glog + gflags
+sudo apt-get install libgoogle-glog-dev libgflags-dev
+# Use ATLAS for BLAS & LAPACK
+sudo apt-get install libatlas-base-dev
+# Eigen3
+sudo apt-get install libeigen3-dev
+# SuiteSparse (optional)
+sudo apt-get install libsuitesparse-dev
+
+git clone https://ceres-solver.googlesource.com/ceres-solver
+mkdir build 
+cd build
+cmake ..
+make
+sudo make install
+```
 
 ## ch2/imu_integration
 + ROS功能包**imu_integration**根据[run_imu_integration.cc](../../src/ch3/run_imu_integration.cc)修改而来
