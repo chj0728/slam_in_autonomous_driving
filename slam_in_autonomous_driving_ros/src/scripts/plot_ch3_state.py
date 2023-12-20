@@ -8,7 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 if __name__ == '__main__':
 
     # path = sys.argv[1]
-    path = "/home/caohaojie/SLAM/BOOKS/slam_in_autonomous_driving_ros/src/data/state.txt"
+    path = "/home/chj/ws/slam_in_autonomous_driving_ros/src/data/state.txt"
     path_data = np.loadtxt(path)
     plt.rcParams['figure.figsize'] = (16.0, 12.0)
 

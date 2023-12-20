@@ -23,7 +23,6 @@ using ceres::Solver;
 //pi_:   当前激光点到雷达坐标系的角度
 //target_x_:KDtree里目标点到的x坐标
 //target_y_:KDtree里目标点到的y坐标
-
 //待优化的是  x,  y,  theta
 struct CostFunctor 
 {
@@ -34,8 +33,8 @@ struct CostFunctor
     template <typename T>
     bool operator()(const T* const x, const T* const y, const T* const theta,T* residual) const
     {
-        residual[0] = x[0]+ r_*cos(pi_ + theta[0])    -target_x_;//残存1
-        residual[1] = y[0]+ r_*sin(pi_ + theta[0])    -target_y_;//残存2
+        residual[0] = x[0]+ r_*cos(pi_ + theta[0])    -target_x_;//残差1
+        residual[1] = y[0]+ r_*sin(pi_ + theta[0])    -target_y_;//残差2
         return true;
     }
     private:

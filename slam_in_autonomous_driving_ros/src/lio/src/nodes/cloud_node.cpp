@@ -140,7 +140,7 @@ int main(int argc, char** argv)
     double filter_size;
 
     // 读取配置文件
-    std::string config_file_path = "/home/caohaojie/SLAM/BOOKS/slam_in_autonomous_driving_ros/src/lio/config/config.yaml";
+    std::string config_file_path = "/home/chj/ws/slam_in_autonomous_driving_ros/src/lio/config/config.yaml";
     YAML::Node config_node = YAML::LoadFile(config_file_path);
     cloud_topic = config_node["lio_mapping"]["lidar_topic"].as<std::string>();
     filter_size = config_node["lio_mapping"]["voxel_size"].as<double>();

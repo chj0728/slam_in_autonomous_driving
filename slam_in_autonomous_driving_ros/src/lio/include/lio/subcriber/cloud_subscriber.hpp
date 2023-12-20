@@ -43,7 +43,12 @@ class CloudConver
         // bool Conver(const CloudData& input, CloudDataVelodyne& output);
 
 };
-
+/**
+ * @brief 点云的订阅类
+ * @param[in] nh ros句柄
+ * @param[in] topic_name 话题名
+ * @param[in] buff_size 缓存大小
+ */
 class   CloudSubscriber
 {
     public:

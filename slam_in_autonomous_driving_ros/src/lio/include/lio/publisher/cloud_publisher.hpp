@@ -22,6 +22,13 @@
 
 namespace lio
 {
+/**
+ * @brief 通过ros发布点云
+ * @param[in] nh ros句柄
+ * @param[in] topic_name 话题名
+ * @param[in] frame_id 坐标系名
+ * @param[in] buff_size 缓存大小
+*/
 class CloudPublisher 
 {
     public:

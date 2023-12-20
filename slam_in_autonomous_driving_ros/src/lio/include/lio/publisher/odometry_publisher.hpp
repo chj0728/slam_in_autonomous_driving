@@ -19,6 +19,15 @@
 
 namespace lio
 {
+/**
+ * @brief  通过ros发布里程计
+ * @param[in] nh ros句柄
+ * @param[in] topic_name 话题名
+ * @param[in] base_frame_id 坐标系名
+ * @param[in] child_frame_id 子坐标系名
+ * @param[in] buff_size 缓存大小
+ * 
+ */
 class OdometryPublisher
 {
     public:

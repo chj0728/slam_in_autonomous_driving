@@ -23,7 +23,13 @@
 #include <common/common.hpp>
 
 namespace lio
-{
+{   
+    /**
+     * @brief   通过ros发布tf
+     * @param[in] base_frame_id 坐标系名
+     * @param[in] child_frame_id 子坐标系名
+     * 
+     */
     class TF2BroadCaster
     {
         public:
